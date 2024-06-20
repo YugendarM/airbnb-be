@@ -1,14 +1,17 @@
 require("dotenv").config()
+const mongoose = require("mongoose")
 const express = require("express")
 const app = express()
 
 const PORT = process.env.PORT || 3000
+const propertyRoute = require("./routes/propertyRoute")
 
-const mongoose = require("mongoose")
 
 app.get("/", (request, response) => {
     response.send({message: "Server Running"})
 })
+
+app.use("/api/v1/property", propertyRoute)
 
 mongoose.connect(process.env.DB_URL)
 const db = mongoose.connection

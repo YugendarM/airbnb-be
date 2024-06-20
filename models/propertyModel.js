@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 const propertySchema = new mongoose.Schema({
-    name: {
+    propertyName: {
         type: String, 
         required: true
     }, 
@@ -75,7 +75,7 @@ const propertySchema = new mongoose.Schema({
         {
             user: {
                 type: mongoose.Types.ObjectId,
-                ref: user
+                ref: "users"
             },
             comment: {
                 type: String,
@@ -98,10 +98,7 @@ const propertySchema = new mongoose.Schema({
     }],
     likes: {
         type: Number,
-    }, 
-    images: [{
-        type: String,
-    }]
+    }
 }, 
 {
     collection: "properties", 
