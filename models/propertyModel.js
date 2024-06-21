@@ -3,8 +3,12 @@ const mongoose = require("mongoose")
 const propertySchema = new mongoose.Schema({
     propertyName: {
         type: String, 
-        required: true
+        //required: true
     }, 
+    propertyType: {
+        type: String,
+        // required: true
+    },
     location: {
         latitude: String,
         longitude: String
@@ -12,54 +16,54 @@ const propertySchema = new mongoose.Schema({
     address: {
         doorNo: {
             type: Number,
-            required: true
+            // //required: true
         },
         street: {
             type: String,
-            required: true
+            // //required: true
         },
         town: {
             type: String,
-            required: true
+            // //required: true
         },
         city: {
             type: String, 
-            required: true
+            // //required: true
         },
         pincode: {
             type: String,
-            required: true
+            //required: true
         },
     },
     accomodationCapacity: {
         adults: { 
-            type: Number, required: true
+            type: Number, //required: true
         },
         children: {
-            type: Number, required: true
+            type: Number, //required: true
         },
         infants: {
-            type: Number, required: true
+            type: Number, //required: true
         },
         pets: {
-            type: Number, required: true
+            type: Number, //required: true
         }
     },
     bedrooms: {
         type: Number,
-        required: true
+        //required: true
     },
     beds: {
         type: Number,
-        required: true
+        //required: true
     },
     bathrooms: {
         type: Number,
-        required: true
+        //required: true
     },
     balconies: {
         type: Number,
-        required: true
+        //required: true
     },
     area: {
         type: Number,
@@ -88,7 +92,7 @@ const propertySchema = new mongoose.Schema({
     }],
     about: {
         type: String,
-        required: true
+        //required: true
     },
     amenities: [{
         type: String
@@ -98,6 +102,16 @@ const propertySchema = new mongoose.Schema({
     }],
     likes: {
         type: Number,
+    },
+    tags: [{
+        type: String,
+    }],
+    images: [{
+        type: String
+    }],
+    pricePerNight: {
+        type: Number,
+        // required: true
     }
 }, 
 {
