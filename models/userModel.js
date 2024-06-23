@@ -2,12 +2,8 @@ const mongoose = require("mongoose")
 
 const userSchema = new mongoose.Schema({
 
-    firstName: {
-        type: String,
-        required: true
-    },
-    lastName: {
-        type: String,
+    userName: {
+        type:String,
         required: true
     },
     email: {
@@ -19,11 +15,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    phoneNumber: {
+    role: {
         type: String,
-        unique: true
+        enum : ["admin", "user"],
+        default: "user"
     },
-    likedProperties: [{
+    wishlist: [{
         type: mongoose.Types.ObjectId,
         ref: 'properties'
     }]

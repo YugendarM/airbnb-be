@@ -19,6 +19,9 @@ const addNewProperty = async(request, response) => {
     const propertyImages = request.files
     const propertyData = request.body
 
+    console.log(request.body)
+    
+
     let images = [];
     if (propertyImages && propertyImages.length > 0) {
         images = propertyImages.map(file => file.path.replace("\\", "/"));
@@ -47,8 +50,6 @@ const addNewProperty = async(request, response) => {
             pricePerNight: propertyData.pricePerNight
            })
         const addedProperty = await newProperty.save()
-        console.log(newProperty)
-        console.log(addedProperty)
         return response.status(201).send(addedProperty)
 
     }
@@ -60,27 +61,53 @@ const addNewProperty = async(request, response) => {
 const searchProperty = async(request, response) => {
     const {city, adults, children, infants, pets } = request.query
     try{
-        let query = {}
-        if(city) {
-            query['address.city'] = city
-        }
-        if(adults) {
-            query['accomodationCapacity.adults'] = {$gte: Number(adults)}
-        }
-        if(children) {
-            query['accomodationCapacity.children'] = {$gte: Number(children)}
-        }
-        if(infants) {
-            query['accomodationCapacity.infants'] = {$gte: Number(infants)}
-        }
-        if(pets) {
-            query['accomodationCapacity.pets'] = {$gte: Number(pets)}
-        }
-        const foundProperties = await propertyModel.find(query)
-        if(foundProperties){
-            return response.status(200).send(foundProperties)
-        }
-        return response.status(404).send({message: "No results found"})
+        // let query = {}
+        // if(city) {
+        //     query['address.city'] = city
+        // }
+        // if(adults) {
+        //     query['accomodationCapacity.adults'] = {$gte: Number(adults)}
+        // }
+        // if(children) {
+        //     query['accomodationCapacity.children'] = {$gte: Number(children)}
+        // }
+        // if(infants) {
+        //     query['accomodationCapacity.infants'] = {$gte: Number(infants)}
+        // }
+        // if(pets) {
+        //     query['accomodationCapacity.pets'] = {$gte: Number(pets)}
+        // }
+        const allProperties = await propertyModel.find()
+        console.log("city", city)
+        allProperties.map((property) => {
+            if(
+                property.address.city !== city && 
+                property.accomodationCapacity.adults<=adults &&
+                property.accomodationCapacity.children<=children &&
+                property.accomodationCapacity.infants<=infants &&
+                property.accomodationCapacity.pets<=pets 
+            ){
+                property.available = false
+                console.log(property)
+            }
+
+            // const obj = {
+            //     ...(trueCondition && { dogs: "woof" }),
+            //     ...(falseCondition && { cats: "meow" }),
+            //   };
+
+            // property = {
+            //     ...(
+            //         property.address.city === city && 
+            //         property.accomodationCapacity.adults>=adults &&
+            //         property.accomodationCapacity.children>=children &&
+            //         property.accomodationCapacity.infants>=infants &&
+            //         property.accomodationCapacity.pets>=pets &&
+            //         {availability: true} && console.log(property)
+            //     )
+            // }
+        })
+        return response.status(200).send(allProperties)
     }
     catch(error) {
         response.status(500).send({messagerrr: error.message})

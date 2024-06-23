@@ -1,12 +1,12 @@
 const properties = [
     {
         propertyName: "Bella Vista", 
-        address: {
-            doorNo: 39,
-            street: "JK Street",
-            town: "Arumbakkam",
-            city: "chennai",
-            pincode: "600046",
+        "address": {
+            "doorNo": 39,
+            "street": "JK Street",
+            "town": "Arumbakkam",
+            "city": "chennai",
+            "pincode": "600046",
         },
         accomodationCapacity: {
             adults: 5,

@@ -3,11 +3,11 @@ const mongoose = require("mongoose")
 const propertySchema = new mongoose.Schema({
     propertyName: {
         type: String, 
-        //required: true
+        required: true
     }, 
     propertyType: {
         type: String,
-        // required: true
+        required: true
     },
     location: {
         latitude: String,
@@ -16,23 +16,23 @@ const propertySchema = new mongoose.Schema({
     address: {
         doorNo: {
             type: Number,
-            // //required: true
+            // required: true
         },
         street: {
             type: String,
-            // //required: true
+            // required: true
         },
         town: {
             type: String,
-            // //required: true
+            // required: true
         },
         city: {
             type: String, 
-            // //required: true
+            // required: true
         },
         pincode: {
             type: String,
-            //required: true
+            // required: true
         },
     },
     accomodationCapacity: {
@@ -51,19 +51,19 @@ const propertySchema = new mongoose.Schema({
     },
     bedrooms: {
         type: Number,
-        //required: true
+        required: true
     },
     beds: {
         type: Number,
-        //required: true
+        required: true
     },
     bathrooms: {
         type: Number,
-        //required: true
+        required: true
     },
     balconies: {
         type: Number,
-        //required: true
+        required: true
     },
     area: {
         type: Number,
@@ -74,6 +74,7 @@ const propertySchema = new mongoose.Schema({
     },
     ratings: {
         type: Number,
+        default: 0
     },
     reviews: [
         {
@@ -92,7 +93,7 @@ const propertySchema = new mongoose.Schema({
     }],
     about: {
         type: String,
-        //required: true
+        required: true
     },
     amenities: [{
         type: String
@@ -111,7 +112,11 @@ const propertySchema = new mongoose.Schema({
     }],
     pricePerNight: {
         type: Number,
-        // required: true
+        required: true
+    },
+    available: {
+        type: Boolean,
+        default: true
     }
 }, 
 {
