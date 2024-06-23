@@ -1,5 +1,6 @@
 const propertyModel = require("../models/propertyModel")
 const initialProperty = require("../data/propertyData")
+const userModel = require("../models/userModel")
 
 const getAllProperties = async(request, response) => {
     try{
@@ -61,22 +62,6 @@ const addNewProperty = async(request, response) => {
 const searchProperty = async(request, response) => {
     const {city, adults, children, infants, pets } = request.query
     try{
-        // let query = {}
-        // if(city) {
-        //     query['address.city'] = city
-        // }
-        // if(adults) {
-        //     query['accomodationCapacity.adults'] = {$gte: Number(adults)}
-        // }
-        // if(children) {
-        //     query['accomodationCapacity.children'] = {$gte: Number(children)}
-        // }
-        // if(infants) {
-        //     query['accomodationCapacity.infants'] = {$gte: Number(infants)}
-        // }
-        // if(pets) {
-        //     query['accomodationCapacity.pets'] = {$gte: Number(pets)}
-        // }
         const allProperties = await propertyModel.find()
         console.log("city", city)
         allProperties.map((property) => {
@@ -90,22 +75,6 @@ const searchProperty = async(request, response) => {
                 property.available = false
                 console.log(property)
             }
-
-            // const obj = {
-            //     ...(trueCondition && { dogs: "woof" }),
-            //     ...(falseCondition && { cats: "meow" }),
-            //   };
-
-            // property = {
-            //     ...(
-            //         property.address.city === city && 
-            //         property.accomodationCapacity.adults>=adults &&
-            //         property.accomodationCapacity.children>=children &&
-            //         property.accomodationCapacity.infants>=infants &&
-            //         property.accomodationCapacity.pets>=pets &&
-            //         {availability: true} && console.log(property)
-            //     )
-            // }
         })
         return response.status(200).send(allProperties)
     }
@@ -114,4 +83,23 @@ const searchProperty = async(request, response) => {
     }
 }
 
-module.exports = {getAllProperties, addNewProperty, searchProperty}
+const getPropertyFromWishlist = async(request, response) => {
+    const userData = request.user
+    try{
+        const validUser = await userModel.findOne({email: userData.email})
+        if(validUser){
+            const propertyData = await propertyModel.find({
+                _id: {$in : validUser.wishlist}
+            })
+            return response.status(200).send(propertyData)
+        }
+        else{
+            return response.status(404).send({message:"Not a valid user"})
+        }
+    }
+    catch(error) {
+        response.status(500).send({messagerrr: error.message})
+    }
+}
+
+module.exports = {getAllProperties, addNewProperty, searchProperty, getPropertyFromWishlist}
