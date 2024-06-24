@@ -20,7 +20,7 @@ const addNewProperty = async(request, response) => {
     const propertyImages = request.files
     const propertyData = request.body
 
-    console.log(request.body)
+    //console.log(request.body)
     
 
     let images = [];
@@ -64,22 +64,31 @@ const searchProperty = async(request, response) => {
     try{
         const allProperties = await propertyModel.find()
         console.log("city", city)
+        console.log("children",children)
+        console.log("adults",adults)
+        console.log("infants",infants)
+        console.log("pets",pets)
         allProperties.map((property) => {
+            console.log("adults", property.accomodationCapacity.adults)
+            console.log("child", property.accomodationCapacity.children)
+            console.log("infants", property.accomodationCapacity.infants)
+            console.log("pets", property.accomodationCapacity.pets)
+            console.log("city", property.address.city)
             if(
-                property.address.city !== city && 
-                property.accomodationCapacity.adults<=adults &&
-                property.accomodationCapacity.children<=children &&
-                property.accomodationCapacity.infants<=infants &&
-                property.accomodationCapacity.pets<=pets 
+                property.address.city !== city ||
+                property.accomodationCapacity.adults<=adults ||
+                property.accomodationCapacity.children<=children ||
+                property.accomodationCapacity.infants<=infants 
+                // property.accomodationCapacity.pets<=pets 
             ){
                 property.available = false
-                console.log(property)
+                //console.log(property)
             }
         })
         return response.status(200).send(allProperties)
     }
     catch(error) {
-        response.status(500).send({messagerrr: error.message})
+        return response.status(500).send({messagerrr: error.message})
     }
 }
 

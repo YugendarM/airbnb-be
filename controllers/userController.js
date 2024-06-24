@@ -5,7 +5,7 @@ const JWT_TOKEN = process.env.JWT_TOKEN
 
 const userSignup = async(request, response) => {
     const userData = request.body
-    console.log(userData)
+    //console.log(userData)
     try{
         const existingUser = await userModel.findOne({email: userData.email})
         if(existingUser){
@@ -27,18 +27,18 @@ const userSignup = async(request, response) => {
 
 const userLogin = async(request, response) => {
     const userData = request.body
-    console.log(userData)
+    //console.log(userData)
     try{
         const validUser = await userModel.findOne({email: userData.email})
-        console.log(validUser)
+        //console.log(validUser)
         if(!validUser){
             return response.status(404).send({message: "User not registered"})
         }
         // if(await bcrypt.compare(userData.password, validUser.password)){
         if(await bcrypt.compare(userData.password, validUser.password)){
             const AUTH_TOKEN = jwt.sign({email: validUser.email, role: validUser.role, userName: validUser.userName}, JWT_TOKEN)
-            console.log(AUTH_TOKEN)
-            console.log({token: AUTH_TOKEN})
+            //console.log(AUTH_TOKEN)
+            //console.log({token: AUTH_TOKEN})
             return response.status(200).send({token: AUTH_TOKEN})
         }
         else{
@@ -52,16 +52,16 @@ const userLogin = async(request, response) => {
 
 const getUserDetails = async(request, response) => {
     const {token} = request.body
-    console.log(request.body)
-    console.log(token)
+    //console.log(request.body)
+    //console.log(token)
     try{
         jwt.verify(token, process.env.JWT_TOKEN, async(error, data) => {
             if(error){
                 return response.status(404).send({message: "User not authorized"})
             }
-            console.log(data)
+            //console.log(data)
             const user = await userModel.findOne({email: data.email})
-            console.log(user)
+            //console.log(user)
             return response.status(200).send(user)
         })
     }
